@@ -9,6 +9,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a","x86"
+        }
     }
     buildTypes {
         release {
@@ -16,6 +20,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    externalNativeBuild {
+        cmake {
+            path "cpp/CMakeLists.txt"
+        }
+    }
+
+    sourceSets {
+        main {
+            // 第三方动态链接库如果没有放在jniLibs目录下，需要在此设置目录
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 
 dependencies {

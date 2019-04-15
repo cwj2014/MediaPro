@@ -1,0 +1,14 @@
+prefix=/home/caiyu/shell_workspace/ffmepg_install/armeabi-v7a
+exec_prefix=${prefix}
+libdir=/home/caiyu/shell_workspace/ffmepg_install/armeabi-v7a/lib
+includedir=/home/caiyu/shell_workspace/ffmepg_install/armeabi-v7a/include
+
+Name: libavutil
+Description: FFmpeg utility library
+Version: 56.14.100
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavutil 
+Libs.private: -pthread -lm
+Cflags: -I${includedir}
