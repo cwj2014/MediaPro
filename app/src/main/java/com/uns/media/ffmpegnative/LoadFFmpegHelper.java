@@ -3,7 +3,9 @@ package com.uns.media.ffmpegnative;
 import android.os.Handler;
 import android.os.Looper;
 
-abstract class LoadFFmpegHelper {
+import com.uns.nativeload.JniLoadHelper;
+
+abstract class LoadFFmpegHelper extends JniLoadHelper {
     static{
         //无加载顺序限制
         System.loadLibrary("avformat");
