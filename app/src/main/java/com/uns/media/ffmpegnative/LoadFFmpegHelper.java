@@ -18,5 +18,5 @@ abstract class LoadFFmpegHelper extends JniLoadHelper {
         System.loadLibrary("swscale");
     }
     //用于子线程与主线程之间的UI交互
-    protected Handler handler = new Handler(Looper.getMainLooper());
+    protected static Handler handler = new Handler(Looper.getMainLooper());
 }

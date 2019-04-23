@@ -11,12 +11,15 @@ std::shared_ptr<ClassReferenceHolder> g_class_reference_holder = nullptr; //用�
 
 // 指定要注册的类，对应完整的java类名
 #define JNIREG_FFMPEGTOOL_CLASS "com/uns/media/ffmpegnative/FFmpegTool"
+#define JNIREG_NATIVETOOL_CLASS "com/uns/util/NativeTool"
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 extern JNIEXPORT jstring JNICALL getVersion(JNIEnv *, jclass);
 extern JNIEXPORT jint JNICALL merge(JNIEnv *, jclass, jstring, jstring, jstring);
+extern JNIEXPORT jint JNICALL exec_ffmpeg_cmd(JNIEnv *, jclass, jobjectArray);
+extern JNIEXPORT jboolean  JNICALL extractAssetFileToDataDir(JNIEnv *, jclass, jobject, jstring, jstring);
 
 #ifdef __cplusplus
 }
@@ -24,10 +27,15 @@ extern JNIEXPORT jint JNICALL merge(JNIEnv *, jclass, jstring, jstring, jstring)
 // Java和JNI函数的绑定表
 static JNINativeMethod FFmpegTool_method_table[] = {
         { "getVersion", "()Ljava/lang/String;", (void*)getVersion },//绑定(注意：一个分号引起的灾难)
-        { "merge", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I", (void*)merge },
+        { "execCmd", "([Ljava/lang/String;)I", (void*)exec_ffmpeg_cmd},//引号里空格引起的灾难
+        { "merge", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I", (void*)merge }
 };
 
-static const char* g_classes[] = { JNIREG_FFMPEGTOOL_CLASS };
+static JNINativeMethod NativeTool_method_table[] = {
+        {"extractAssetFileToDataDir", "(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)Z", (void*)extractAssetFileToDataDir}
+};
+
+static const char* g_classes[] = { JNIREG_FFMPEGTOOL_CLASS, JNIREG_NATIVETOOL_CLASS};
 
 // 注册native方法到java中
 int registerNativeMethods(JNIEnv* env, const char* className, JNINativeMethod* gMethods, int numMethods);
@@ -42,9 +50,10 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     AttachThreadScoped ats(g_vm);
     JNIEnv* env = ats.env();
     //映射函数
-    for(int i=0; i<n; i++){
-        registerNativeMethods(env, g_classes[i], FFmpegTool_method_table,ARRAYSIZE(FFmpegTool_method_table));
-    }
+
+    registerNativeMethods(env, JNIREG_FFMPEGTOOL_CLASS, FFmpegTool_method_table,ARRAYSIZE(FFmpegTool_method_table));
+    registerNativeMethods(env, JNIREG_NATIVETOOL_CLASS, NativeTool_method_table,ARRAYSIZE(NativeTool_method_table));
+
     return JNI_VERSION_1_6;
 }
 

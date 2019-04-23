@@ -1,7 +1,9 @@
+add_subdirectory(ffmpeg_run)
+
 set(FFMPEG_DIR ffmepg_install)
 
 #当前目录下的使用相对路径
-INCLUDE_DIRECTORIES(${FFMPEG_DIR}/${ANDROID_ABI}/include)
+INCLUDE_DIRECTORIES(${FFMPEG_DIR}/${ANDROID_ABI}/include ../common)
 
 add_library(avcodec SHARED IMPORTED)
 set_target_properties(avcodec
@@ -42,16 +44,23 @@ set_target_properties(swscale
         PROPERTIES IMPORTED_LOCATION
         ${PROJECT_SOURCE_DIR}/../libs/${ANDROID_ABI}/libswscale.so)
 
+
+
 SET(FFMPEGTOOL_LIBS avutil
+                    avdevice
                     avcodec
                     swresample
                     swscale
                     postproc
                     avformat
-                    avfilter)
+                    avfilter
+                    android
+                    log
+                    ffmpeg)
 
 SET(FFMPEGTOOL_LIB_SRCS ffmpeg_version.cpp
-                        ffmpeg_tool_impl.cpp
-                        merge.cpp)
+        merge.cpp
+        ffmpeg_tool_impl.cpp
+        ffmepg_cmd_impl.cpp)
 ADD_LIBRARY(ffmpegtool SHARED ${FFMPEGTOOL_LIB_SRCS})
 TARGET_LINK_LIBRARIES(ffmpegtool ${FFMPEGTOOL_LIBS})
