@@ -16,7 +16,7 @@ extern "C"{
 #include <assert.h>
 #include <stdio.h>
 #include <memory>
-#include "merge_mp4_util.h"
+#include "ffmpeg_util.h"
 
 struct MediaInfo{
     AVFormatContext* inAVFormatCtx;
@@ -69,6 +69,9 @@ int MergeTwoFile(const char* inAudioFile, const char* inVideoFile, const char* o
     if(avformat_alloc_output_context2(&outFormatCtx, nullptr, nullptr, outputFile)){
         return -1;
     }
+
+    AVCodec *codec = avcodec_find_decoder_by_name("h264_mediacodec");
+    AVCodec *codec2 = avcodec_find_encoder_by_name("h264_mediacodec");
 
     std::shared_ptr<MediaInfo> audioMediaInfo = InitStream(outFormatCtx, inAudioFile, AVMEDIA_TYPE_AUDIO);
     std::shared_ptr<MediaInfo> videoMediaInfo = InitStream(outFormatCtx, inVideoFile, AVMEDIA_TYPE_VIDEO);

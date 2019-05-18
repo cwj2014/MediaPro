@@ -2,9 +2,7 @@ package com.uns.util;
 
 import android.content.Context;
 
-import com.uns.nativeload.JniLoadHelper;
-
-public class NativeTool extends JniLoadHelper {
+public class NativeTool {
     static{
         System.loadLibrary("nativetool");
     }

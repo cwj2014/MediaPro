@@ -3,7 +3,7 @@ add_subdirectory(ffmpeg_run)
 set(FFMPEG_DIR ffmepg_install)
 
 #当前目录下的使用相对路径
-INCLUDE_DIRECTORIES(${FFMPEG_DIR}/${ANDROID_ABI}/include ../common)
+INCLUDE_DIRECTORIES(${FFMPEG_DIR}/${ANDROID_ABI}/include ../common ..)
 
 add_library(avcodec SHARED IMPORTED)
 set_target_properties(avcodec
@@ -60,7 +60,11 @@ SET(FFMPEGTOOL_LIBS avutil
 
 SET(FFMPEGTOOL_LIB_SRCS ffmpeg_version.cpp
         merge.cpp
+        hw_decode_video.cpp
+        codecimpl.cpp
+        yuv420p_util.cpp
         ffmpeg_tool_impl.cpp
-        ffmepg_cmd_impl.cpp)
+        ffmepg_cmd_impl.cpp
+        jni_load.cpp)
 ADD_LIBRARY(ffmpegtool SHARED ${FFMPEGTOOL_LIB_SRCS})
 TARGET_LINK_LIBRARIES(ffmpegtool ${FFMPEGTOOL_LIBS})

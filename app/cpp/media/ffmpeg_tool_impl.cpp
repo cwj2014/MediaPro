@@ -5,7 +5,7 @@
 #include <jni.h>
 #include <cstdlib>
 #include <malloc.h>
-#include "merge_mp4_util.h"
+#include "ffmpeg_util.h"
 #include <string.h>
 #include <string>
 #include <vector>
@@ -19,7 +19,8 @@ JNIEXPORT jint JNICALL merge(JNIEnv *env, jclass cls, jstring audiopath, jstring
     char *pAudioPath = (char *)env->GetStringUTFChars(audiopath, NULL);
     char *pVideoPath = (char *)env->GetStringUTFChars(videopath, NULL);
     char *pOutputPath = (char *)env->GetStringUTFChars(outputpath, NULL);
-    int ret =  MergeTwoFile(pAudioPath, pVideoPath, pOutputPath);
+    //int ret =  MergeTwoFile(pAudioPath, pVideoPath, pOutputPath);
+    int ret = DecodeVideoAndWriteYUV420(pAudioPath, pOutputPath);
     env->ReleaseStringUTFChars(audiopath, pAudioPath);
     env->ReleaseStringUTFChars(videopath, pVideoPath);
     env->ReleaseStringUTFChars(outputpath, pOutputPath);
