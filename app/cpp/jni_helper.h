@@ -134,6 +134,27 @@ private:
 
     std::map<std::string, jclass> classes_;
 };
-
+//常用的jstring工具类，通过析构释放内存
+class JString{
+public:
+    JString(JNIEnv* env, jstring str): env(env), str(str){
+        pstr = (char*)env->GetStringUTFChars(str, NULL);
+        len = env->GetStringLength(str);
+    }
+    ~JString(){
+        env->ReleaseStringUTFChars(str, pstr);
+    }
+    const char* GetString() const {
+        return pstr;
+    }
+    int StrLength() const {
+        return len;
+    }
+private:
+    JNIEnv* env;
+    jstring str;
+    char* pstr;
+    int len;
+};
 
 #endif //JNI_HELPER_H

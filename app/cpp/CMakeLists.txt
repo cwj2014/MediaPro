@@ -6,3 +6,4 @@ PROJECT (MEDIAPRO)
 
 add_subdirectory(media)
 add_subdirectory(common)
+add_subdirectory(jni_test)
