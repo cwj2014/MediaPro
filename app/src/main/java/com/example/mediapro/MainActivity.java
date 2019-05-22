@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jni.JniParam;
+import com.example.jni.JniTest;
 import com.uns.media.ffmpegnative.FFmpegTool;
 import com.uns.util.NativeTool;
 
@@ -22,6 +24,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+       // int t = JniTest.add(5, 6);
+        JniTest.sayMessage("caicai", "say hello");
+        JniParam param = new JniParam();
+        param.name = "dandan";
+        param.school = "adfafa";
+        param.chinese = 100;
+        param.math = 80;
+        JniTest.setJniParam(param);
+
         ((TextView)findViewById(R.id.tv_show_version)).setText(FFmpegTool.getVersion());
         imageView = (ImageView)findViewById(R.id.imageView);
             //sdcard/寂寞寂寞不好 - 曹格.mp4
